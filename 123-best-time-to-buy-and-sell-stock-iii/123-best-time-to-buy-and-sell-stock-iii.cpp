@@ -12,8 +12,20 @@ public:
             return dp[i][buy][moves]= max(v[i]+f(i+1,v,1,moves-1,dp), f(i+1,v,0,moves,dp));
     }
 
-    int maxProfit(vector<int>& prices) {
-        vector<vector<vector<int>>> dp(prices.size(),vector<vector<int>> (2,vector<int> (3,-1)));
-        return f(0,prices,1,2,dp);
+    int maxProfit(vector<int>& v) {
+        vector<vector<vector<long>>> dp(v.size()+1,vector<vector<long>> (2,vector<long> (3,0)));
+        // return f(0,prices,1,2,dp);
+        
+        for(int i=v.size()-1;i>=0;i--){
+            for(int buy=0;buy<2;buy++){
+                for(int moves=1;moves<3;moves++){
+                    if(buy==1)
+                        dp[i][buy][moves]= max(-v[i]+dp[i+1][0][moves],dp[i+1][1][moves]);
+                    else
+                        dp[i][buy][moves]= max(v[i]+dp[i+1][1][moves-1], dp[i+1][0][moves]);
+                }
+            }
+        }
+        return dp[0][1][2];
     }
 };
