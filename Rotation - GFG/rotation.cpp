@@ -9,20 +9,18 @@ using namespace std;
 class Solution{
 public:	
 	int findKRotation(int arr[], int n) {
-	    bool already=true;
-	    for(int i=1;i<n;i++){
-	        if(arr[i]<arr[i-1]){already=false;break;}
-	    }
-	    if(already)return 0;
-	    // code here
+	    
 	    int l=0;
 	    int e=n-1;
 	    int mid=l+(e-l)/2;
+	    if(arr[mid]>=arr[0] && arr[mid]<=arr[e])return 0;
 	    while(l<=e)
 	    {   
 	        mid=l+(e-l)/2;
 	        if(arr[mid]>arr[mid+1])
 	        return mid+1;
+	        
+	        
 	        
 	        else if(arr[mid]>=arr[0])
 	        l=mid+1;
