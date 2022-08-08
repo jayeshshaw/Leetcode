@@ -1,3 +1,17 @@
+```
+class Solution {
+public:
+int f(int i, int pre, vector<int> &v,vector<vector<long>> &dp){
+if(i==v.size())return 0;
+if(dp[i][pre+1]!=-1)return dp[i][pre+1];
+int a=0,b=0;
+if(pre==-1 || v[i]> v[pre])a= 1 + f(i+1,i,v,dp);
+b=f(i+1,pre,v,dp);
+return dp[i][pre+1]= max(a,b);
+}
+int lengthOfLIS(vector<int>& v) {
+// vector<vector<long>> dp(v.size()+1,vector<long> (v.size()+1,0));
+vector<int> next(v.size()+1,0),cur(v.size()+1,0);
 for(int i=v.size()-1;i>=0;i--){
 for(int pre=i-1;pre>=-1;pre--){
 int a=0,b=0;
@@ -25,21 +39,3 @@ return cur[0];
 ​
 ​
 ​
-​
-​
-​
-​
-​
-​
-​
-vector<int> help;
-help.push_back(v[0]);
-for(int i=1;i<v.size();i++){
-if(v[i]>help[help.size()-1])help.push_back(v[i]);
-else{
-int ind=lower_bound(help.begin(),help.end(),v[i])-help.begin();
-help[ind]=v[i];
-}
-}
-return help.size();
-```
