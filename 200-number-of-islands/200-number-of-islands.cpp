@@ -1,31 +1,28 @@
 class Solution {
 public:
     int numIslands(vector<vector<char>>& grid) {
-        
-        int ans=0;
-        for(int i=0;i<grid.size();i++){
-            for(int j=0;j<grid[i].size();j++){
+        int islands=0;
+        int m=grid.size();
+        int n=grid[0].size();
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
                 if(grid[i][j]=='1'){
-                    ans++;
-                    grid[i][j]='2';
-                    discover_whole_island(grid,i,j);
+                    islands++;
+                    discover_whole_island(i,j,grid);
                 }
             }
         }
-        return ans;
+        return islands;
+        
     }
     
-    void discover_whole_island(vector<vector<char>>& grid, int a,int b){
-        int dx[]={-1,0,1,0};
-        int dy[]={0,1,0,-1};
-        for(int i=0;i<4;i++){
-            int new_i=a+dx[i];
-            int new_j=b+dy[i];
-            if(new_i>=0 && new_j>=0 && new_i<grid.size() && new_j<grid[0].size()&& grid[new_i][new_j]=='1'){
-                grid[new_i][new_j]='2';
-                discover_whole_island(grid, new_i, new_j);
-            }
-            
-        }
+    void discover_whole_island( int a,int b, vector<vector<char>>& grid){
+        if(a<0 || b<0 || a>=grid.size() || b>=grid[0].size() || grid[a][b]!='1')return;
+        
+        grid[a][b]='2';
+        discover_whole_island(a,b+1,grid);
+        discover_whole_island(a+1,b,grid);
+        discover_whole_island(a,b-1,grid);
+        discover_whole_island(a-1,b,grid);
     }
 };
