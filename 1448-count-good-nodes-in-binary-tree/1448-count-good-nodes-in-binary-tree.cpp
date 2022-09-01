@@ -12,16 +12,13 @@
 class Solution {
     
 public:
-    int ans=0;
-    void f(TreeNode* root,int mx){
-        if(!root)return;
-        if(root->val>=mx)ans++,mx=max(mx,root->val);
-        f(root->left,mx);
-        f(root->right,mx);
-    }
     
-    int goodNodes(TreeNode* root) {
-        f(root,-1e9);
-        return ans;
+    int goodNodes(TreeNode* root,int mx=-1e9) {
+        if(!root)return 0;
+        if(root->val>=mx){
+            mx=root->val;
+            return 1+ goodNodes(root->left,mx)+goodNodes(root->right,mx);
+        }
+        return goodNodes(root->left,mx)+ goodNodes(root->right,mx); 
     }
 };
