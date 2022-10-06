@@ -10,15 +10,11 @@ public:
     }
     
     string get(string key, int time) {
-        string ans="";
         while(time>=1){
-            if(mp[key].find(time) != mp[key].end()){
-                ans = mp[key][time];
-                break;
-            }
+            if(mp[key].find(time) != mp[key].end())return mp[key][time];
             time--;
         }
-        return ans;
+        return "";
     }
 };
 
