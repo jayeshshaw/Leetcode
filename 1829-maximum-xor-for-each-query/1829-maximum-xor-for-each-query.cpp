@@ -1,18 +1,17 @@
 class Solution {
 public:
     vector<int> getMaximumXor(vector<int>& nums, int maximumBit) {
+        int k=pow(2,maximumBit)-1;
         int n=nums.size();
-        int m=pow(2,maximumBit);
-        vector<int> pf(n,0);
-        pf[0]=nums[0];
+        vector<int> pre(n,0),ans(n,0);
+        int ii=0;
+        pre[0]=nums[0];
         for(int i=1;i<n;i++){
-            pf[i]=pf[i-1]^nums[i];
+            pre[i]=nums[i]^pre[i-1];
         }
-        vector<int> ans;
         for(int i=n-1;i>=0;i--){
-           ans.push_back(pf[i]^m-1);
+            ans[ii++]=pre[i]^k;
         }
-        // cout<<n*m;
         return ans;
     }
 };
