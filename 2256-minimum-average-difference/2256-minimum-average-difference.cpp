@@ -1,28 +1,26 @@
-// #define int long long
 class Solution {
 public:
     int minimumAverageDifference(vector<int>& nums) {
+        long long int sm=0;
         int n=nums.size();
-        int minimum_difference=INT_MAX;
-        int index=0;
-        long long int total=0;
-        for(int i: nums)total+=i;
-        
-        long long int left=0,right;
-        for(int i=0;i<n-1;i++){
-            left+=nums[i];
-            right=total-left;
-            int abs_difference=abs((left/(i+1))-(right/(n-i-1)));
-            if(abs_difference<minimum_difference){
-                minimum_difference=abs_difference;
-                index=i;
+        for(auto i: nums)sm+=i;
+        long long int s=0;
+        int mn=1e9,ind=-1;
+        for(int i=0;i<n;i++){
+            if(i==n-1){
+                if(sm/n<mn){
+                    ind=i;
+                }
+                return ind;
+            }
+            s+=nums[i];
+            int avg=(s/(i+1)) -((sm-s)/(n-i-1));
+            avg=abs(avg);
+            
+            if(avg<mn){
+                mn=avg;ind=i;
             }
         }
-        int abs_difference=abs(total/n);
-        if(abs_difference<minimum_difference){
-            minimum_difference=abs_difference;
-            index=n-1;
-        }
-        return index;
+        return ind;
     }
 };
