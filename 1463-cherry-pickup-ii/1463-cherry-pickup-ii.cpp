@@ -1,53 +1,32 @@
 class Solution {
 public:
-    
-//     int f(int i,int j1,int j2, int n,int m, vector<vector<int>>& v,vector<vector<vector<int>>> &dp){
-//         // if(j1>=m || j1<0 || j2>=m || j2<0)return -1e8;
-//         if(i==n-1){
-//             if(j1==j2)return v[i][j1];
-//             return v[i][j1]+v[i][j2];
-//         }
-//         if(dp[i][j1][j2]!=-1)return dp[i][j1][j2];
-//         int mx=-1e8;
-//         for(int p=-1;p<2;p++){
-//             for(int q=-1;q<2;q++){
-//                 int newj1=j1+p,newj2=j2+q;
-//                 if(newj1<0 || newj1>=m || newj2<0 || newj2>=m)continue;
-                
-//                 int ans=0;
-//                 if(newj1==newj2)ans+=v[i][j2];
-//                 else ans+=v[i][j1]+v[i][j2];
-//                 ans+=f(i+1,newj1,newj2,n,m,v,dp);
-//                 mx=max(mx,ans);
-//             }
-//         }
-//         return dp[i][j1][j2]= mx;
-//     }
-    
-    int f(int i,int j1,int j2,int &n, int &m,  vector<vector<int>>& v,vector<vector<vector<int>>> &dp){
-        if(i==n)return 0;
+    int m,n;
+    vector<vector<vector<int>>> dp;
+    int f(int i, int j1, int j2, vector<vector<int>>& grid){
+        if(i>=m || j1<0 || j1>=n || j2<0 || j2>=n)return 0;
+        if(i==m-1){
+            int ans=grid[i][j1];
+            if(j1!=j2)ans+= grid[i][j2];
+            return ans;
+        }
         
         if(dp[i][j1][j2]!=-1)return dp[i][j1][j2];
-        int ans=0;
-        ans+=v[i][j1];
-        if(j1!=j2)ans+=v[i][j2];
-        int res=ans;
-        for(int a=-1;a<2;a++){
-            for(int b=-1;b<2;b++){
-                int newj1=j1+a,newj2=j2+b;
-                if(newj1<0 || newj1>=m || newj2<0 || newj2>=m)continue;
-                int abhi=ans;
-                abhi+=f(i+1,newj1,newj2,n,m,v,dp);
-                res=max(res,abhi);
+        
+        int ans=grid[i][j1];
+        if(j1!=j2)ans+= grid[i][j2];
+        int mx=0;
+        for(int x=-1;x<2;x++){
+            for(int y=-1;y<2;y++){
+                mx=max(mx,f(i+1,j1+x,j2+y,grid));
             }
         }
-        return dp[i][j1][j2]=res;
+        return dp[i][j1][j2]=ans+mx;
     }
-   
+    
     
     int cherryPickup(vector<vector<int>>& grid) {
-        int n=grid.size(),m=grid[0].size();
-        vector<vector<vector<int>>> dp(n,vector<vector<int>> (m, vector<int> (m,-1)));
-        return f(0,0,m-1,n,m,grid,dp);
+        m=grid.size(),n=grid[0].size();
+        dp.resize(m,vector<vector<int>> (n, vector<int> (n,-1)));
+        return f(0,0,n-1,grid);
     }
 };
