@@ -1,22 +1,18 @@
 class MyCalendarTwo {
 public:
     map<int,int> m;
-    MyCalendarTwo() {
-        
-    }
-    
-    bool book(int s, int e) {
-        m[s]++,m[e]--;
-        int ans=0,sm=0;
+    MyCalendarTwo() {}
+    bool book(int start, int end) {
+        m[start]++,m[end]--;
+        int events_running=0;
         for(auto i: m){
-            sm+=i.second;
-            ans=max(ans,sm);
-            if(ans>2){
-                m[s]--,m[e]++;
-                return 0;
+            events_running+=i.second;
+            if(events_running>2){
+                m[start]--,m[end]++;
+                return false;
             }
         }
-        return 1;
+        return true;
     }
 };
 
