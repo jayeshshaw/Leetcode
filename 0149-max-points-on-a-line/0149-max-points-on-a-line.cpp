@@ -8,19 +8,15 @@ public:
                 int abhi=2;
                 float ix=v[i][0],iy=v[i][1];
                 float jx=v[j][0],jy=v[j][1];
-                double slope=(jy-iy)/(jx-ix);
-                // cout<<slope<<" ";
+                
                 for(int  k=j+1;k<n;k++){
                     
                     float kx=v[k][0],ky=v[k][1];
                     
-                    if(ix==jx && jx==kx){abhi++;continue;}
-                    else if(iy==jy && jy==ky){abhi++;continue;}
+                    long long s1=(ky-iy)*(kx-jx);
+                    long long s2=(ky-jy)*(kx-ix);
                     
-                    double s1=(ky-iy)/(kx-ix);
-                    double s2=(ky-jy)/(kx-jx);
-                    // cout<<s1<<" "<<s2;
-                    if(s1==s2 && s1==slope)abhi++;
+                    if(s1==s2 )abhi++;
                     
                 }
                 ans=max(abhi,ans);
