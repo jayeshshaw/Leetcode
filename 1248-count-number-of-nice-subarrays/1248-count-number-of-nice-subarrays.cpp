@@ -1,20 +1,22 @@
 class Solution {
+private:
+    int atmost(vector<int> &v, int k){
+        int start=0,end=0;
+        int n=v.size();
+        int count=0,ans=0;
+        while(start<n && end<n){
+            count+=v[end]%2;
+            while(count>k){
+                count-=(v[start++]%2);
+            }
+            ans+=end-start+1;
+            end++;
+        }
+        return ans;
+    }
+    
 public:
     int numberOfSubarrays(vector<int>& nums, int k) {
-        unordered_map<int,int> mp;
-        mp[0]=0;
-        int odds=0;
-        int nice_subarrays=0;
-        int size=nums.size();
-        
-        for(int i=0;i<size;i++){
-            if(nums[i]%2)odds++;
-            if(mp[odds]==0 && odds>0)mp[odds]=i+1;
-            if(odds-k>=0)
-            nice_subarrays+= mp[odds-k+1] - mp[odds-k];
-            // cout<<i<<" "<<odds-k<<"-->  "<<mp[odds-k+1]<<"-"<<mp[odds-k]<<endl;
-        }
-        
-        return nice_subarrays;
+        return atmost(nums,k)-atmost(nums,k-1);
     }
 };
